@@ -1,6 +1,6 @@
 	
 var app = angular.module('App',['angularUtils.directives.dirPagination']);
-app.controller('mainCtrl',function($scope,$http,$routeParams,$timeout){
+app.controller('mainCtrl',function($scope,$http,$timeout){
 		//sorting and filtering 
 		$scope.cort = true;
 
