@@ -1,0 +1,283 @@
+	<!DOCTYPE html>
+	<html>
+	<head>	
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Test Front End</title>
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bower_components/normalize-css/normalize.css">
+	<link rel="stylesheet" href="dist/css/main.css">
+	<script src="bower_components/jquery/dist/jquery.min.js"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src= "bower_components/angularUtils-pagination/dirPagination.js"></script>
+
+	</head>
+	<body ng-app="App">
+	<section ng-cloak class="container-fluid" ng-controller="mainCtrl">
+	<div class="alertMessage" ng-show="alertDisplayed">{{message}}</div>	
+	<nav class="navbar  navbar-relative" id="main-nav">
+	<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+				<li><a href="" class="navbar-brand">TAGS<span class="glyphicon glyphicon-tags" aria-hidden="true"></span></a></li>
+				</div>
+				<div class="collapse navbar-collapse navHeaderCollapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="active"><a data-toggle="modal" data-target="#myModal" href="">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+							<p>New</p>
+						</a></li>		
+						<li><a href="">						
+							<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+							<p>Types</p>
+
+							
+	</a></li>	
+					</ul>
+				</div>
+			</div>
+	</nav>
+
+
+
+	 <div class="container-fluid">
+	<div class="wrapper">
+	<form class="form-inline">
+        <div class="form-group">
+            <label >Search</label><br>
+            <input type="text" ng-model="search" class="form-control">
+        </div>
+    </form>
+	</div>
+	</div>	
+	 </div>	
+	 <div class="container-fluid">
+	 <div class="wrapper">	
+	 <table class="table table-striped">
+	 <thead>
+	<tr> 	
+	 <th><div class="input-group">
+	  <input type="text" class="form-control"  aria-describedby="basic-addon1" ng-model="tagId">
+	  <span class="input-group-addon glyphicon glyphicon-search" aria-hidden="true" id="basic-addon1"></span>
+
+	</div></th>
+	 <th>
+	<div class="input-group">
+	  <input type="text" class="form-control"  aria-describedby="basic-addon1" ng-model="tagName">
+	  <span class="input-group-addon glyphicon glyphicon-search" aria-hidden="true" id="basic-addon1"></span>
+
+	</div>
+	 </th>
+	 <th>
+	<div class="input-group">
+	  <input type="text" class="form-control"  aria-describedby="basic-addon1" ng-model="tagType">
+	  <span class="input-group-addon glyphicon glyphicon-search" aria-hidden="true" id="basic-addon1"></span>
+
+	</div>
+	 </th>
+	 <th>
+	<div class="btn-group" role="group">
+	    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	     All
+	      <span class="caret"></span>
+	    </button>
+	    <ul class="dropdown-menu">
+	     <li ng-click="dropdown()" ><a href="#">All</a></li>
+	      <li ng-click="dropdown('!my_feed')"><a href="#">Yes</a></li>
+	     <li ng-click="dropdown('my_feed')"><a href="#">No</a></li>
+	    </ul>
+	  </div>
+	 </th>
+	 <th>
+	<div class="btn-group" role="group">
+	    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	      All
+	      <span class="caret"></span>
+	    </button>
+	    <ul class="dropdown-menu">
+	      <li ng-click="dropdown()" ><a href="#">All</a></li>
+	      <li ng-click="dropdown('!my_favourites')"><a href="#">Yes</a></li>
+	     <li ng-click="dropdown('my_favourites')"><a href="#">No</a></li>
+
+	    </ul>
+	  </div>
+	 </ht>
+	 <th class="empty_th"></th>
+	</tr>
+	<tr> 	
+	 <th ng-click="sort('id')">Tag Id
+	 	<span class="glyphicon sort-icon align-right" ng-show="sortKey=='id'" ng-class="{'glyphicon-chevron-up':toggle,'glyphicon-chevron-down':!toggle}"></span>
+            </th>
+	 <th ng-click="sort('tag_name')">Tag Name
+	 	<span class="glyphicon sort-icon align-right" ng-show="sortKey=='tag_name'" ng-class="{'glyphicon-chevron-up':toggle,'glyphicon-chevron-down':!toggle}"></span>
+	 </th>
+	 <th ng-click="sort('tag_type')">Tag Type
+	 	<span class="glyphicon sort-icon align-right" ng-show="sortKey=='tag_type'" ng-class="{'glyphicon-chevron-up':toggle,'glyphicon-chevron-down':!toggle}"></span>
+	 </th>
+	 <th ng-click="sort('my_feed')">My Feed
+	 	<span class="glyphicon sort-icon align-right" ng-show="sortKey=='my_feed'" ng-class="{'glyphicon-chevron-up':toggle,'glyphicon-chevron-down':!toggle}"></span>
+	 </th>
+	 <th >My Favourites<span class="glyphicon sort-icon align-right"  ng-class="{'glyphicon-chevron-up':toggle,'glyphicon-chevron-down':!toggle}"></span>
+	 </th>
+	 <th>Actions<span class="glyphicon sort-icon align-right"  ng-class="{'glyphicon-chevron-up':toggle,'glyphicon-chevron-down':!toggle}"></span>
+	 </th>
+	</tr>
+	</thead> 
+	<tbody>
+	<tr dir-paginate = "tag in tags | filter:{id: tagId, tag_type:tagType, tag_name:tagName} | filter:search | orderBy:sortKey:toggle | orderBy:sortKeyer | itemsPerPage:number  track by tag.id" >
+	<td>{{tag.id}}</td>
+	<td><a href="" data-toggle="modal" data-target="#myModal{{tag.id}}">{{tag.tag_name}}</td>	
+	<td>{{tag.tag_type}}</td>	
+	<td ><span class="glyphicon" ng-class="{'glyphicon-ok':tag.my_feed,'':!tag.my_feed}" aria-hidden="true"></span></td>	
+	<td > <span class="glyphicon" ng-class="{'glyphicon-ok':tag.my_favourites,'':!tag.my_favourites}" aria-hidden="true"></span></td>	
+	<td class="actions">
+	<a href="" data-toggle="modal" data-target="#myModal{{tag.id}}"><span id="edit_tag" class="glyphicon glyphicon-pencil" aria-hidden="true"></a>
+		<span ng-click = "deleteRow($event)" id="delete_tag" class="glyphicon glyphicon-remove" aria-hidden="true">	
+	</td>
+	<span>asfsafsaf</span>
+	</tr>
+	</tbody>
+	</table>
+	<div class="wrapper">
+	<div class="paginate pull-right">
+	<dir-pagination-controls
+       max-size="5"
+       direction-links="true"
+       boundary-links="true" >
+    </dir-pagination-controls>
+</div>
+	<div class="num-of-rows pull-left">
+	<form class="form-inline">	
+	<label>Show
+          <select class="form-control" ng-model="number" ng-init="number='10'">
+            <option ng-repeat="state in states" ng-value="state.abbrev" >
+              {{state.abbrev}}
+             </option> 
+         </select> 
+     entries</label>
+ </form>
+	</div>
+</div>
+  </div> 
+	</div>
+	 </div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title align-center">New Tag</h4>
+        </div>
+        <div class="modal-body">
+        <div class="form-group">
+<form name="myForm" ng-submit="saveDatar()" class="form-inline" enctype="multipart/form-data">
+            <label >Name*<br>
+            <input type="text" ng-model="newname" class="form-control" required>
+        </label><br>
+     <label>My feed
+    <input  type="checkbox" ng-model="new_feed">
+  </label>
+          <label>My favourites
+          <input type="checkbox" ng-model="new_favourites">
+      </label><br>
+
+<label>Choose one tag type<br>
+          <select class="form-control" ng-model="newtagtype" ng-init="newtagtype='Takmicenje'">
+            <option ng-repeat="tag in subtype"  ng-value="tag" >
+              {{tag}}
+             </option> 
+         </select> 
+     </label><br>
+     <p>Photo</p>
+
+     <input ng-model="newimage" type="file" name="file" onchange="angular.element(this).scope().photoChanged(this.files)" />
+        <img ng-show="imager"ng-src="{{ thumbnail.dataUrl }}"/>
+
+      <input  type="submit" class="btn btn-info" value="Save"> 
+
+    </form>
+
+        </div>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary pull-right">Save changes</button>
+      </div>
+        </div>
+      
+    </div>
+  </div>
+
+  <div ng-repeat ="tag in tags" class="modal fade" id="myModal{{tag.id}}" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 ng-hide="editEnabled" class="modal-title">{{tag.tag_name}}</h4>
+          
+        </div>
+        <div class="modal-body">
+          <div ng-hide="editEnabled" class='notEditState'>
+          <h4>{{tag.tag_type}}</h4>
+          <span>My feed</span>
+          <span  class="glyphicon" ng-class="{'glyphicon-ok':tag.my_feed,'glyphicon-remove':!tag.my_feed}" aria-hidden="true"></span>
+          <span>My Favourites</span>
+          <span class="glyphicon" ng-class="{'glyphicon-ok':tag.my_favourites,' glyphicon-remove':!tag.my_favourites}" aria-hidden="true"></span>
+          <img  ng-src="dist/img/{{tag.image}}"/>
+         </div>
+
+         <div ng-show="editEnabled" class="editState">
+         <form ng-submit="saveData()"class="form-inline">
+         <input placeholder="tag name" type="text" ng-model="editname" class="form-control" required><br>
+         <label >Choose one tag type<br>
+          <select class="form-control" ng-model="edittagtype" ng-init="edittagtype='Takmicenje'">
+            <option ng-repeat="tag in subtype track by $index"  ng-value="tag" >
+              {{tag}}
+             </option> 
+         </select> 
+     </label><br>
+    
+    <label>My feed
+    <input  type="checkbox" ng-model="editmy_feed">
+  </label>
+          <label>My favourites
+          <input type="checkbox" ng-model="editmy_favourites">
+      </label><br>
+      <input ng-model="newimage" type="file" name="file" onchange="angular.element(this).scope().photoChanged(this.files)" />
+        <img ng-show="imager"ng-src="{{ thumbnail.dataUrl }}"/>
+      <input  type="submit" class="btn btn-info" value="Save"> 
+      </form> 
+         </div> 
+        </div>
+        <div class="modal-footer">
+         
+          <button   ng-click="editData()" type="button" class="btn btn-danger pull-left">Edit</button>
+          <button   ng-click="cancleData()" type="button" class="btn btn-warning pull-right">Cancle</button>
+
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<form>
+ 
+
+        
+	</section>
+
+
+	
+	<script src="dist/js/main.js"></script>
+	</body>
+	</html>
