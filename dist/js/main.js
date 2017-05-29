@@ -22,7 +22,6 @@ app.controller('mainCtrl',function($scope,$http,$timeout){
 			}).filter(function(filt,i,currentArray){
 				return currentArray.indexOf(filt) == i;
 			});	
-			console.log($scope.subtype);
 		})
 		.catch(function(reason) {
 			$scope.err = reason;
